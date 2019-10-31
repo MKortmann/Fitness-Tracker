@@ -15,6 +15,7 @@ class App extends Component {
 
   startTimer = () => {
 
+    // decreasing the value 1 per each second
     let startTimer = setInterval( () => {
       this.setState({
         timerLoops: [],
@@ -23,7 +24,7 @@ class App extends Component {
       })
     }, 1000)
 
-
+    // clear timer!
     setTimeout( () => {
       alert("time finished");
       clearInterval(startTimer);
@@ -48,7 +49,7 @@ class App extends Component {
         <Navbar />
         <h1>Fitness Tracker</h1>
         <Display display={this.state.timeDisplayed}/>
-        <Input changed={this.changed}/>
+        <Input changed={this.changed} value={this.state.timeDisplayed}/>
         <Button startTimer={this.startTimer} btnName={this.state.btnStates[0]}/>
       </div>
     );
