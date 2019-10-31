@@ -17,8 +17,8 @@ class App extends Component {
     console.log("clicked");
   }
 
-  changed = () => {
-    alert("changed the input value!")
+  changed = (event) => {
+    console.log(event.target.value);
   }
 
 
