@@ -9,26 +9,49 @@ class App extends Component {
 
   state = {
     timerLoops: [],
-    btnStates: ["start", "stop"],
-    timeDisplayed: 45
+    btnLabel: "start",
+    timeDisplayed: 45,
+    timerActive: false
   }
 
   startTimer = () => {
 
+    if(this.state.timerActive === true) {
+
+
+    // alert("timer stopped");
+    // this.setState({
+    //   timerLoops: [],
+    //   btnLabel: "start",
+    //   timeDisplayed: this.state.timeDisplayed-1,
+    //   timerActive: false
+    // })
+    // clearInterval(startTimer);
+    }
+
+    // startTimer should be in the state!! NEXT STEP!!!!
     // decreasing the value 1 per each second
     let startTimer = setInterval( () => {
       this.setState({
         timerLoops: [],
-        btnStates: ["start", "stop"],
-        timeDisplayed: this.state.timeDisplayed-1
+        btnLabel: "stop",
+        timeDisplayed: this.state.timeDisplayed-1,
+        timerActive: true
       })
     }, 1000)
 
     // clear timer!
     setTimeout( () => {
       alert("time finished");
+      this.setState({
+        timerLoops: [],
+        btnLabel: "start",
+        timeDisplayed: this.state.timeDisplayed-1,
+        timerActive: false
+      })
       clearInterval(startTimer);
     }, this.state.timeDisplayed*1000)
+
 
 
   }
@@ -37,7 +60,7 @@ class App extends Component {
     console.log(event.target.value);
     this.setState({
       timerLoops: [],
-      btnStates: ["start", "stop"],
+      btnLabel: "start",
       timeDisplayed: event.target.value
     })
   }
@@ -50,7 +73,7 @@ class App extends Component {
         <h1>Fitness Tracker</h1>
         <Display display={this.state.timeDisplayed}/>
         <Input changed={this.changed} value={this.state.timeDisplayed}/>
-        <Button startTimer={this.startTimer} btnName={this.state.btnStates[0]}/>
+        <Button startTimer={this.startTimer} btnName={this.state.btnLabel}/>
       </div>
     );
   }
