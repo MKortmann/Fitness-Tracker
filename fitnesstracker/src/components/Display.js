@@ -1,9 +1,9 @@
 import React from "react";
 
-const display = () => {
+const display = (props) => {
 
   return (
-    <p>"Display"</p>
+    <p>{props.display}</p>
   )
 
 }

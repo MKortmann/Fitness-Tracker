@@ -9,7 +9,8 @@ class App extends Component {
 
   state = {
     timerLoops: [],
-    btnStates: ["start", "stop"]
+    btnStates: ["start", "stop"],
+    timeDisplayed: 0
   }
 
   startTimer = () => {
@@ -19,6 +20,11 @@ class App extends Component {
 
   changed = (event) => {
     console.log(event.target.value);
+    this.setState({
+      timerLoops: [],
+      btnStates: ["start", "stop"],
+      timeDisplayed: event.target.value
+    })
   }
 
 
@@ -27,7 +33,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <h1>Fitness Tracker</h1>
-        <Display />
+        <Display display={this.state.timeDisplayed}/>
         <Input changed={this.changed}/>
         <Button startTimer={this.startTimer} btnName={this.state.btnStates[0]}/>
       </div>
