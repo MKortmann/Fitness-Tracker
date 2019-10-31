@@ -10,69 +10,74 @@ class App extends Component {
   state = {
     timerLoops: [],
     btnLabel: "start",
-    timeDisplayed: 45,
-    timerActive: false
+    minutes: 5,
+    seconds: 45,
+    isTimerActive: false
   }
 
   startTimer = () => {
-
-    if(this.state.timerActive === true) {
-
-
-    // alert("timer stopped");
-    // this.setState({
-    //   timerLoops: [],
-    //   btnLabel: "start",
-    //   timeDisplayed: this.state.timeDisplayed-1,
-    //   timerActive: false
-    // })
-    // clearInterval(startTimer);
-    }
-
-    // startTimer should be in the state!! NEXT STEP!!!!
-    // decreasing the value 1 per each second
-    let startTimer = setInterval( () => {
+    // check if the timer is already running, if yes: STOP IT!
+    if(this.state.isTimerActive === true) {
       this.setState({
-        timerLoops: [],
-        btnLabel: "stop",
-        timeDisplayed: this.state.timeDisplayed-1,
-        timerActive: true
-      })
-    }, 1000)
-
-    // clear timer!
-    setTimeout( () => {
-      alert("time finished");
-      this.setState({
-        timerLoops: [],
         btnLabel: "start",
-        timeDisplayed: this.state.timeDisplayed-1,
-        timerActive: false
-      })
-      clearInterval(startTimer);
-    }, this.state.timeDisplayed*1000)
+        isTimerActive: false
+      });
+      // clear the interval and setTimeOut
+      clearInterval(this.timer);
+      // clearTimeout(timerOut);
+      clearTimeout(this.timerOut);
 
+    } else {
+      // decreasing the value 1 per each second
+      this.timer = setInterval( () => {
+        console.log(this.timer);
+        console.log(this.timerOut);
+        if(this.state.seconds > 0) {
+          this.setState({
+            btnLabel: "stop",
+            seconds: this.state.seconds-1,
+            isTimerActive: true
+          })
+        } else {
+          this.setState({
+            btnLabel: "stop",
+            minutes: this.state.minutes-1,
+            seconds: 59,
+            isTimerActive: true
+          })
+        }
+      }, 1000)
 
-
+      // This is one of the one cases that is necessary to use var if you do not
+      // want to declare it outside and assign it.
+      this.timerOut = setTimeout( () => {
+        // setting state
+        this.setState({
+          btnLabel: "start",
+          isTimerActive: false
+        })
+        clearInterval(this.timer);
+        // simple and fast solution
+        alert("FINISHED!!!");
+      }, (this.state.minutes*60+this.state.seconds)*1000)
+    }
   }
 
-  changed = (event) => {
-    console.log(event.target.value);
-    this.setState({
-      timerLoops: [],
-      btnLabel: "start",
-      timeDisplayed: event.target.value
-    })
+  updateMinutes = (event) => {
+      this.setState({minutes: event.target.value})
   }
-
+  updateSeconds = (event) => {
+      this.setState({seconds: event.target.value})
+  }
 
   render() {
     return (
       <div className="App">
         <Navbar />
         <h1>Fitness Tracker</h1>
-        <Display display={this.state.timeDisplayed}/>
-        <Input changed={this.changed} value={this.state.timeDisplayed}/>
+        <Display dMinutes={this.state.minutes} dSeconds={this.state.seconds}/>
+        <Input changed={this.updateMinutes} value={this.state.minutes}/>
+        <Input changed={this.updateSeconds} value={this.state.seconds}/>
         <Button startTimer={this.startTimer} btnName={this.state.btnLabel}/>
       </div>
     );

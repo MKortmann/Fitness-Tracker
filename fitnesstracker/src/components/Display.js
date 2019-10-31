@@ -3,7 +3,7 @@ import React from "react";
 const display = (props) => {
 
   return (
-    <p>{props.display}</p>
+    <p>{props.dMinutes} : {props.dSeconds}</p>
   )
 
 }
