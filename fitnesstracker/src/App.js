@@ -10,12 +10,26 @@ class App extends Component {
   state = {
     timerLoops: [],
     btnStates: ["start", "stop"],
-    timeDisplayed: 0
+    timeDisplayed: 45
   }
 
   startTimer = () => {
-    alert("You clicked at this button!");
-    console.log("clicked");
+
+    let startTimer = setInterval( () => {
+      this.setState({
+        timerLoops: [],
+        btnStates: ["start", "stop"],
+        timeDisplayed: this.state.timeDisplayed-1
+      })
+    }, 1000)
+
+
+    setTimeout( () => {
+      alert("time finished");
+      clearInterval(startTimer);
+    }, this.state.timeDisplayed*1000)
+
+
   }
 
   changed = (event) => {
